@@ -10,6 +10,7 @@
     "type": "git",
     "url": "git+https://github.com/matteolecuit/tp-advanced-dev.git"
   },
+  "type": "module",
   "author": "",
   "license": "ISC",
   "bugs": {
