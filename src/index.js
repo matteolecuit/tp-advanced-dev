@@ -1,29 +1,46 @@
 import { taxRates } from "./res/taxRates.js";
-import * as readline from 'readline'
+import * as readline from "readline";
+import * as util from "util";
 console.log(taxRates);
 
-const rl = readline.createInterface({
+const items = [];
+
+const getNewItem = async () => {
+  let itemPrice = 0;
+  let itemQuantity = 0;
+  let totalPrice = 0;
+  let continueLoop = false;
+
+  const rl = readline.createInterface({
     input: process.stdin,
-    output: process.stdout
-})
+    output: process.stdout,
+  });
+  const prompt = (query) =>
+    new Promise((resolve) => rl.question(query, resolve));
 
-let itemPrice = 0;
-let itemQuantity = 0;
+  await (async () => {
+    try {
+      itemPrice = Number(await prompt("Price: "));
+      itemQuantity = Number(await prompt(`Quantity`));
+      totalPrice = itemPrice * itemQuantity;
+      const resContinue = await prompt(`continue`);
+      if (String(resContinue).toLowerCase() == "y") continueLoop = true;
+      //can prompt multiple times.
+      items.push({ itemPrice, itemQuantity, totalPrice });
+      rl.close();
+    } catch (e) {
+      console.error("unable to prompt", e);
+    }
+  })();
+  return continueLoop;
+};
 
-rl.question(`Quel est le prix de l'item ? `, price => {
-    itemPrice = price;
-    // if (typeof price === 'number') {
-        
-    // } else {
-    //     console.log("La valeur choisie doit être un nombre")
-    // }
+const main = async () => {
+  while (true) {
+    const continueLoop = await getNewItem();
+    console.log({ continueLoop });
+    if (!continueLoop) break;
+  }
+};
 
-    rl.question(`Quelle quantité souhaitez vous acheter ? `, quantity => {
-        itemQuantity = quantity;
-            console.log("Le total sera de : " + itemQuantity * itemPrice)
-        // if (typeof(quantity) == 'number') {
-        // } else {
-        //     console.log("La valeur choisie doit être un nombre")
-        // }
-    })
-})
+main().catch();

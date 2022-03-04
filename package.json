@@ -16,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/matteolecuit/tp-advanced-dev/issues"
   },
-  "homepage": "https://github.com/matteolecuit/tp-advanced-dev#readme"
+  "homepage": "https://github.com/matteolecuit/tp-advanced-dev#readme",
+  "dependencies": {
+    "prompt": "^1.2.2"
+  }
 }
