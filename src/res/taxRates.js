@@ -1,10 +1,10 @@
 export const taxRates = [
   {
     code: "AZ",
-    rate: 0.2,
+    rate: 20,
   },
   {
     code: "VE",
-    rate: 0.12,
+    rate: 12,
   },
 ];
