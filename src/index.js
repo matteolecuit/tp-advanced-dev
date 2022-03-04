@@ -41,6 +41,12 @@ const main = async () => {
     console.log({ continueLoop });
     if (!continueLoop) break;
   }
+
+  let t = 0;
+  const total = items.map((item) => {
+    t += item["totalPrice"];
+  });
+  console.log({ t });
 };
 
 main().catch();
