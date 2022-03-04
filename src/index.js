@@ -27,15 +27,15 @@ const getNewItem = async () => {
   await (async () => {
     try {
       itemPrice = Number(await prompt("Price: "));
-      itemQuantity = Number(await prompt(`Quantity`));
-      const stateCode = String(await prompt("Code"));
+      itemQuantity = Number(await prompt(`Quantity: `));
+      const stateCode = String(await prompt("Code: "));
       let foundTaxRate = taxRates.find(
         (element) => element.code == stateCode
       ).rate;
 
       if (foundTaxRate) {
         taxRate = foundTaxRate;
-        console.log(`La TVA est de ${foundTaxRate} %`);
+        // console.log(`La TVA est de ${foundTaxRate} %`);
       } else {
         console.log(
           `Aucune code correspondant, le taux par défaut est de 20 %`
@@ -59,12 +59,12 @@ const getNewItem = async () => {
       console.log(`La réduction actuelle est de ${discount} %`);
 
       if (totalPrice <= 16000) {
-        const newDiscount = Number(await prompt("discount (-1 for default"));
+        const newDiscount = Number(await prompt("discount (-1 for default): "));
         if (newDiscount !== -1) discount = newDiscount;
       }
-      ttcPrice = totalPrice * (1 - discount / 100);
+      ttcPrice = totalPrice * (1 - taxRate / 100) * (1 - discount / 100);
       items.push({ itemPrice, itemQuantity, totalPrice, ttcPrice, taxRate });
-      const resContinue = await prompt(`continue`);
+      const resContinue = await prompt(`continue (y/n): `);
       if (String(resContinue).toLowerCase() == "y") continueLoop = true;
       rl.close();
     } catch (e) {
@@ -77,7 +77,6 @@ const getNewItem = async () => {
 const main = async () => {
   while (true) {
     const continueLoop = await getNewItem();
-    console.log({ continueLoop });
     if (!continueLoop) break;
   }
 
