@@ -9,31 +9,32 @@ const rl = readline.createInterface({
 
 let itemPrice = 0;
 let itemQuantity = 0;
+let discount = 0;
+let totalPrice = 0;
 
 rl.question(`Quel est le prix de l'item ? `, price => {
     itemPrice = price;
-    // if (typeof price === 'number') {
-        
-    // } else {
-    //     console.log("La valeur choisie doit être un nombre")
-    // }
 
     rl.question(`Quelle quantité souhaitez vous acheter ? `, quantity => {
         itemQuantity = quantity;
-            console.log("Le total sera de : " + itemQuantity * itemPrice)
-        // if (typeof(quantity) == 'number') {
-        // } else {
-        //     console.log("La valeur choisie doit être un nombre")
-        // }
+        totalPrice = itemQuantity * itemPrice
+        console.log(`Le total HT sera de : ${totalPrice}`);
+
+        if (totalPrice > 1000) {
+            discount = 3;
+        }
+        console.log(`La réduction actuelle est de ${discount} %`);
+
+        rl.question(`Quelle est la valeur de la réduction à appliquer ? `, discount => {
+            discount = discount;
+        
+            console.log(`Le taux de réduction est de ${discount} %`);
+            let ttcPrice = totalPrice * (1 - (discount / 100));
+            console.log(`Le prix TTC est de ${ttcPrice}`);
+            rl.close()
+        })
     })
 })
 
-let totalPrice = 20
-
-let reductionRate = 25;
-console.log(`Le taux de réduction est de ${reductionRate} %`);
-
-let ttcPrice = totalPrice * (1 - (reductionRate / 100));
-console.log(`Le prix TTC est de ${ttcPrice}`);
 
 
