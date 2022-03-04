@@ -14,6 +14,7 @@ const getNewItem = async () => {
   let discount = 0;
   let taxRate = 0;
   let ttcPrice = 0;
+  let itemLabel = "";
 
   let continueLoop = false;
 
@@ -26,6 +27,7 @@ const getNewItem = async () => {
 
   await (async () => {
     try {
+      itemLabel = String(await prompt("Label: "));
       itemPrice = Number(await prompt("Price: "));
       itemQuantity = Number(await prompt(`Quantity: `));
       const stateCode = String(await prompt("Code: "));
@@ -62,9 +64,16 @@ const getNewItem = async () => {
         const newDiscount = Number(await prompt("discount (-1 for default): "));
         if (newDiscount !== -1) discount = newDiscount;
       }
-      ttcPrice = totalPrice * (1 - taxRate / 100) * (1 - discount / 100);
-      items.push({ itemPrice, itemQuantity, totalPrice, ttcPrice, taxRate });
-      const resContinue = await prompt(`continue (y/n): `);
+      ttcPrice = totalPrice * (1 - discount / 100);
+      items.push({
+        itemPrice,
+        itemQuantity,
+        totalPrice,
+        ttcPrice,
+        taxRate,
+        itemLabel,
+      });
+      const resContinue = await prompt(`continue`);
       if (String(resContinue).toLowerCase() == "y") continueLoop = true;
       rl.close();
     } catch (e) {
@@ -80,10 +89,11 @@ const main = async () => {
     if (!continueLoop) break;
   }
 
+  console.log(items);
   const total = items.map((item) => {
     return item["totalPrice"];
   });
-  console.log({ total });
+  console.log("total TTC: " + total);
 };
 
 main().catch();
