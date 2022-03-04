@@ -27,3 +27,13 @@ rl.question(`Quel est le prix de l'item ? `, price => {
         // }
     })
 })
+
+let totalPrice = 24
+
+let reductionRate = 0;
+console.log(`Le taux de réduction est de ${reductionRate} %`);
+
+let ttcPrice = totalPrice * (100 - reductionRate);
+console.log(`Le prix TTC est de ${ttcPrice}`);
+
+
